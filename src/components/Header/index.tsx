@@ -5,7 +5,7 @@ import Container from "./styles";
 function Header() {
   return (
     <Container>
-      <Link href="success">
+      <Link href="checkout">
         <div className="LinkBack"> teste</div>
       </Link>
 
