@@ -1,62 +1,13 @@
 import { Container, Offer } from './styles';
-import api from '../../api';
+
 import React, { useEffect, useState } from 'react';
 
-interface Offers {
-  id: number;
-  storeId: string;
-  title: string;
-  description: string;
-  caption: string;
-  fullPrice: number;
-  discountAmmount: number;
-  discountPercentage: number;
-  periodLabel: string;
-  period: string;
-  discountCouponCode: null;
-  order: number;
-  priority: number;
-  gateway: string;
-  splittable: Boolean;
-  installments: number;
-  acceptsCoupon: Boolean;
-}
-
-interface PaymentData {
-  couponCode: null;
-  creditCardCPF: string;
-  creditCardCVV: string;
-  creditCardExpirationDate: string;
-  creditCardHolder: string;
-  creditCardNumber: string;
-  gateway: string;
-  installments: number;
-  offerId: number;
-  userId: number;
-}
-
-export function PlanOffers() {
-  useEffect(() => {
-    api.get(`offer`).then(res => {
-      console.log(res.data);
-
-      setOffers(res.data);
-    });
-  }, []);
-
+export function PlanOffers({ offers, offerChecked, handleCheckRadioOffer }) {
   // Currency formatter
   let formatter = new Intl.NumberFormat([], {
     style: 'currency',
     currency: 'BRL',
   });
-
-  const [offers, setOffers] = useState<Offers[]>([]);
-  const [offerChecked, setOfferChecked] = useState<string>('');
-  const [paymentData, setpaymentData] = useState<PaymentData>({});
-
-  function handleCheckRadioOffer(event: React.FormEvent<HTMLInputElement>) {
-    setOfferChecked(event.currentTarget.value);
-  }
 
   return (
     <Container>
