@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Container = styled.div`
+export const Container = styled.div`
   width: 1110px;
   max-width: 100%;
   padding: 0 10px;
@@ -21,5 +21,3 @@ const Container = styled.div`
     transform: translate(-50%, -50%);
   }
 `;
-
-export default Container;

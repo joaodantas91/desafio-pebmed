@@ -1,6 +1,6 @@
-import Link from "next/link";
+import Link from 'next/link';
 
-import Container from "./styles";
+import { Container } from './styles';
 
 function Header() {
   return (

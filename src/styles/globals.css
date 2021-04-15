@@ -3,3 +3,12 @@
   margin: 0;
   box-sizing: border-box;
 }
+
+:root {
+  --blue: #191847;
+  --orange: #f5850b;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+}
