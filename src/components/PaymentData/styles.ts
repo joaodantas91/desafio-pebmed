@@ -59,6 +59,13 @@ export const Container = styled.div`
       padding: 5px 0 10px;
       width: 100%;
       font-size: 1.2rem;
+      background: transparent;
+      :-webkit-autofill,
+      :-webkit-autofill:hover,
+      :-webkit-autofill:focus,
+      :-webkit-autofill:active {
+        box-shadow: 0 0 0 30px white inset !important;
+      }
       ::placeholder {
         color: #e1dee8;
       }

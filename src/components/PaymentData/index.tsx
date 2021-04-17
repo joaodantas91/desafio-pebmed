@@ -1,23 +1,8 @@
-import Select from 'react-select';
-
 import { Container } from './styles';
-import api from '../../api';
 import Image from 'next/image';
+import { useState } from 'react';
 
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-];
-
-export function PaymentData() {
-  function handleSubmit() {
-    api.delete(`users/${this.state.id}`).then(res => {
-      console.log(res);
-      console.log(res.data);
-    });
-  }
-
+export function PaymentData({ offers, register, errors }) {
   return (
     <Container>
       <h2>Estamos quase lá!</h2>
@@ -78,55 +63,143 @@ export function PaymentData() {
       </div>
 
       <label>
-        Número do Cartão
+        <div>
+          Número do Cartão{' '}
+          {errors.creditCardNumber && (
+            <small>{errors.creditCardNumber.message}</small>
+          )}
+        </div>
         <input
-          type="tel"
-          inputMode="numeric"
-          pattern="[0-9\s]{13,19}"
-          autoComplete="cc-number"
-          maxLength={19}
+          {...register('creditCardNumber', {
+            required: '*Este campo é obrigatório',
+            minLength: {
+              value: 13,
+              message: 'Número de caracteres inválidos',
+            },
+            maxLength: {
+              value: 19,
+              message: 'Número de caracteres inválidos',
+            },
+          })}
+          type="text"
           placeholder="0000 0000 0000 0000"
         />
       </label>
 
       <div className="InputGroup">
         <label>
-          Validade
-          <input type="tel" maxLength={4} placeholder="MM/AA" />
+          <div>
+            Validade{' '}
+            {errors.creditCardExpirationDate && (
+              <small>{errors.creditCardExpirationDate.message}</small>
+            )}
+          </div>
+          <input
+            {...register('creditCardExpirationDate', {
+              required: '*Este campo é obrigatório',
+              maxLength: {
+                value: 4,
+                message: 'Número de caracteres inválidos',
+              },
+            })}
+            type="number"
+            placeholder="MM/AA"
+          />
         </label>
 
         <label>
-          CVV
-          <input type="tel" maxLength={3} placeholder="000" />
+          <div>
+            CVV{' '}
+            {errors.creditCardCVV && (
+              <small>{errors.creditCardCVV.message}</small>
+            )}
+          </div>
+          <input
+            type="tel"
+            {...register('creditCardCVV', {
+              required: '*Este campo é obrigatório',
+              minLength: {
+                value: 3,
+                message: 'Número de caracteres inválidos',
+              },
+              maxLength: {
+                value: 3,
+                message: 'Número de caracteres inválidos',
+              },
+            })}
+            placeholder="000"
+          />
         </label>
       </div>
 
       <label>
-        Nome impresso no cartão
-        <input type="text" placeholder="Seu nome" />
+        <div>
+          Nome impresso no cartão{' '}
+          {errors.creditCardHolder && (
+            <small>{errors.creditCardHolder.message}</small>
+          )}
+        </div>
+        <input
+          type="text"
+          {...register('creditCardHolder', {
+            required: '*Este campo é obrigatório',
+          })}
+          placeholder="Seu nome"
+        />
       </label>
 
       <label>
-        CPF
-        <input type="tel" placeholder="000.000.000-00" />
+        <div>
+          CPF{' '}
+          {errors.creditCardCPF && (
+            <small>{errors.creditCardCPF.message}</small>
+          )}
+        </div>
+        <input
+          type="string"
+          {...register('creditCardCPF', {
+            required: '*Este campo é obrigatório',
+            minLength: {
+              value: 11,
+              message: 'Número de caracteres inválidos',
+            },
+            maxLength: {
+              value: 14,
+              message: 'Número de caracteres inválidos',
+            },
+          })}
+          placeholder="000.000.000-00"
+        />
       </label>
 
       <label>
         Cupom
-        <input type="tel" placeholder="000.000.000-00" />
-      </label>
-
-      <label>
-        Número de parcelas{' '}
-        <Select
-          classNamePrefix="react-select"
-          className="react-select"
-          isSearchable={false}
-          options={options}
+        <input
+          type="text"
+          {...register('couponCode', { required: false })}
+          placeholder="Insira aqui"
         />
       </label>
 
-      <button>Finalizar pagamento</button>
+      <label>
+        <div>
+          Número de parcelas{' '}
+          {errors.creditCardCPF && (
+            <small>{errors.creditCardCPF.message}</small>
+          )}
+        </div>
+        <select
+          {...register('installments', {
+            required: '*Este campo é obrigatório',
+          })}
+        >
+          <option value="female">female</option>
+          <option value="male">male</option>
+          <option value="other">other</option>
+        </select>
+      </label>
+
+      <button type="submit">Finalizar pagamento</button>
     </Container>
   );
 }

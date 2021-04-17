@@ -2,7 +2,7 @@ import { Container, Offer } from './styles';
 
 import React, { useEffect, useState } from 'react';
 
-export function PlanOffers({ offers, offerChecked, handleCheckRadioOffer }) {
+export function PlanOffers({ offers, register, errors }) {
   // Currency formatter
   let formatter = new Intl.NumberFormat([], {
     style: 'currency',
@@ -13,6 +13,8 @@ export function PlanOffers({ offers, offerChecked, handleCheckRadioOffer }) {
     <Container>
       <h2>Confira o seu plano:</h2>
       <p className="UserEmail">fulano@cicrano.com.br</p>
+
+      {errors.offerId && <small>{errors.offerId.message}</small>}
 
       {offers ? (
         offers.map(e => (
@@ -41,10 +43,10 @@ export function PlanOffers({ offers, offerChecked, handleCheckRadioOffer }) {
             <input
               type="radio"
               name="offer"
-              value={e.id.toString()}
-              id=""
-              onChange={handleCheckRadioOffer}
-              checked={offerChecked == e.id.toString()}
+              value={e.id}
+              {...register('offerId', {
+                required: '*Este campo é obrigatório',
+              })}
             />
           </Offer>
         ))

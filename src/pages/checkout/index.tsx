@@ -1,9 +1,21 @@
 import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import api from '../../api';
 
 import { PaymentData } from '../../components/PaymentData';
 import { PlanOffers } from '../../components/PlanOffers';
 import { Container } from './styles';
+
+type FormValues = {
+  couponCode: string;
+  creditCardCPF: string;
+  creditCardCVV: string;
+  creditCardExpirationDate: string;
+  creditCardHolder: string;
+  creditCardNumber: string;
+  installments: string;
+  offerId: number;
+};
 
 interface Offers {
   id: number;
@@ -40,28 +52,32 @@ interface PaymentData {
 
 export default function Checkout() {
   const [offers, setOffers] = useState<Offers[]>([]);
-  const [offerChecked, setOfferChecked] = useState<string>('');
-  // const [paymentData, setpaymentData] = useState<PaymentData>({});
+  console.log(offers);
 
-  function handleCheckRadioOffer(event: React.FormEvent<HTMLInputElement>) {
-    setOfferChecked(event.currentTarget.value);
-  }
+  const [paymentData, setpaymentData] = useState<PaymentData[]>();
 
   useEffect(() => {
     api.get(`offer`).then(res => {
-      console.log(res.data);
       setOffers(res.data);
     });
   }, []);
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
+
   return (
-    <Container>
-      <PaymentData />
-      <PlanOffers
-        offers={offers}
-        offerChecked={offerChecked}
-        handleCheckRadioOffer={handleCheckRadioOffer}
-      />
-    </Container>
+    <form
+      onSubmit={handleSubmit(data => {
+        console.log(data);
+      })}
+    >
+      <Container>
+        <PaymentData offers={offers} register={register} errors={errors} />
+        <PlanOffers offers={offers} register={register} errors={errors} />
+      </Container>
+    </form>
   );
 }
