@@ -1,8 +1,21 @@
 import { Container } from './styles';
 import Image from 'next/image';
-import { useState } from 'react';
 
-export function PaymentData({ offers, register, errors }) {
+export function PaymentData({ offers, register, errors, offerId, formatter }) {
+  const installments = e => {
+    let rows = [];
+    for (let index = 1; index <= e.installments; index++) {
+      rows.push(
+        <option key={index} value={index}>
+          {index}x de{' '}
+          {formatter.format((e.fullPrice - e.discountAmmount) / index)}
+          /mês
+        </option>,
+      );
+    }
+    return rows;
+  };
+
   return (
     <Container>
       <h2>Estamos quase lá!</h2>
@@ -193,9 +206,21 @@ export function PaymentData({ offers, register, errors }) {
             required: '*Este campo é obrigatório',
           })}
         >
-          <option value="female">female</option>
-          <option value="male">male</option>
-          <option value="other">other</option>
+          {offerId &&
+            offers
+              .filter(offer => offer.id == offerId)
+              .map(e => (
+                <>
+                  {installments(e)}
+                  {/* <option key={e.id} value="female">
+                    {e.installments}x de{' '}
+                    {formatter.format(
+                      (e.fullPrice - e.discountAmmount) / e.installments,
+                    )}
+                    /mês
+                  </option> */}
+                </>
+              ))}
         </select>
       </label>
 

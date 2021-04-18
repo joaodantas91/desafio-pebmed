@@ -1,14 +1,8 @@
 import { Container, Offer } from './styles';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-export function PlanOffers({ offers, register, errors }) {
-  // Currency formatter
-  let formatter = new Intl.NumberFormat([], {
-    style: 'currency',
-    currency: 'BRL',
-  });
-
+export function PlanOffers({ offers, register, errors, formatter }) {
   return (
     <Container>
       <h2>Confira o seu plano:</h2>

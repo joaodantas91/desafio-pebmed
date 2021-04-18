@@ -52,9 +52,12 @@ interface PaymentData {
 
 export default function Checkout() {
   const [offers, setOffers] = useState<Offers[]>([]);
-  console.log(offers);
 
-  const [paymentData, setpaymentData] = useState<PaymentData[]>();
+  // Currency formatter
+  let formatter = new Intl.NumberFormat([], {
+    style: 'currency',
+    currency: 'BRL',
+  });
 
   useEffect(() => {
     api.get(`offer`).then(res => {
@@ -65,18 +68,43 @@ export default function Checkout() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<FormValues>();
 
+  function handleFormSubmit() {}
+
+  const offerId = watch('offerId');
+  console.log(offerId);
+
   return (
     <form
-      onSubmit={handleSubmit(data => {
-        console.log(data);
+      onSubmit={handleSubmit(async data => {
+        const response = await api.post('subscription', {
+          ...data,
+          couponCode: data.couponCode ? data.couponCode : null,
+          offerId: Number(data.offerId),
+          gateway: 'iugu',
+          installments: Number(data.installments),
+          userId: 1,
+        });
+        console.log(response.data);
       })}
     >
       <Container>
-        <PaymentData offers={offers} register={register} errors={errors} />
-        <PlanOffers offers={offers} register={register} errors={errors} />
+        <PaymentData
+          offers={offers}
+          register={register}
+          errors={errors}
+          offerId={offerId}
+          formatter={formatter}
+        />
+        <PlanOffers
+          offers={offers}
+          register={register}
+          errors={errors}
+          formatter={formatter}
+        />
       </Container>
     </form>
   );
