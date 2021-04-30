@@ -12,7 +12,7 @@ export function PlanOffers({ offers, register, errors, formatter }) {
 
       {offers ? (
         offers.map(e => (
-          <Offer key={e.id}>
+          <Offer key={e.id} data-testid="offer">
             <div>
               <h4>
                 <span>{e.title}</span> | <span>{e.description}</span>
@@ -37,6 +37,7 @@ export function PlanOffers({ offers, register, errors, formatter }) {
             <input
               type="radio"
               name="offer"
+              role="button"
               value={e.id}
               {...register('offerId', {
                 required: '*Este campo é obrigatório',

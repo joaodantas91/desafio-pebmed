@@ -19,7 +19,7 @@
     "**/*.ts",
     "**/*.tsx",
     "src/pages/_app.js",
-    "src/pages/checkout/checkout.spec.js"
+    "src/pages/index/checkout.spec.js"
   ],
   "exclude": ["node_modules"]
 }

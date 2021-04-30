@@ -209,18 +209,7 @@ export function PaymentData({ offers, register, errors, offerId, formatter }) {
           {offerId &&
             offers
               .filter(offer => offer.id == offerId)
-              .map(e => (
-                <>
-                  {installments(e)}
-                  {/* <option key={e.id} value="female">
-                    {e.installments}x de{' '}
-                    {formatter.format(
-                      (e.fullPrice - e.discountAmmount) / e.installments,
-                    )}
-                    /mês
-                  </option> */}
-                </>
-              ))}
+              .map(e => installments(e))}
         </select>
       </label>
 
